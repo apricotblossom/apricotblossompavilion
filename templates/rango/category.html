@@ -1,11 +1,11 @@
 <!DOCTYPE html>
- 
-<html> 
-    <head> 
-        <title>Rango</title> 
-    </head> 
-    <body> 
-        <div> 
+{% extends 'rango/base.html' %}
+
+{% block title_block %} 
+{{ category.name }} 
+{% endblock %} 
+{% block body_block %}  
+<div>
             {% if category %} 
             <h1>{{ category.name }}</h1> 
             {% if pages %} 
@@ -28,5 +28,4 @@
             A category by this name does not exist 
             {% endif %}
         </div>
-    </body> 
-</html>
+{% endblock %}
