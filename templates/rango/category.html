@@ -5,7 +5,6 @@
 {{ category.name }} 
 {% endblock %} 
 {% block body_block %}  
-<div>
             {% if category %} 
             <h1>{{ category.name }}</h1> 
             {% if pages %} 
@@ -17,15 +16,13 @@
             {% else %} 
                 <strong>No pages currently in category.</strong> 
             {% endif %} 
-            {% else %} 
-                 The specified category does not exist! 
-            {% endif %} 
-        </div> 
-        <div>
-            {% if category %} 
-            <a href="/rango/category/{{category.slug}}/add_page/">Add Page</a> <br/> 
-            {% else %} 
-            A category by this name does not exist 
+
+            {% if user.is_authenticated %}
+            
+            <a href="{{% url 'add_page' category.slug %}}">Add a Page</a> <br/>  
+            {% else %}
             {% endif %}
-        </div>
+            {% else %}
+            The specified category does not exist!
+            {% endif %}
 {% endblock %}

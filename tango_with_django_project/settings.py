@@ -18,8 +18,7 @@ TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
 STATIC_DIR = os.path.join(BASE_DIR, 'static')
 MEDIA_DIR = os.path.join(BASE_DIR, 'media')
 
-MEDIA_ROOT = MEDIA_DIR 
-MEDIA_URL = '/media/'
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
@@ -76,6 +75,7 @@ TEMPLATES = [
     },
 ]
 
+STATICFILES_DIRS = [STATIC_DIR, ]
 WSGI_APPLICATION = 'tango_with_django_project.wsgi.application'
 
 
@@ -89,7 +89,12 @@ DATABASES = {
     }
 }
 
-
+PASSWORD_HASHERS = [ 
+    'django.contrib.auth.hashers.BCryptSHA256PasswordHasher', 
+    'django.contrib.auth.hashers.BCryptPasswordHasher', 
+    'django.contrib.auth.hashers.PBKDF2PasswordHasher', 
+    'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher', 
+]
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
 
@@ -99,6 +104,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
     {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'OPTIONS': { 'min_length': 6, }
     },
     {
         'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
@@ -125,7 +131,11 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
+MEDIA_ROOT = MEDIA_DIR 
+MEDIA_URL = '/media/'
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [STATIC_DIR, ]
+
+LOGIN_URL = '/rango/login/'
+
 
