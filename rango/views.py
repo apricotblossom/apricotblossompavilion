@@ -33,7 +33,7 @@ def about(request):
     if request.session.test_cookie_worked(): 
         print("TEST COOKIE WORKED!")
         request.session.delete_test_cookie()
-        '''
+    '''
     print(request.method) 
     print(request.user) 
 '''
@@ -78,7 +78,7 @@ def add_category(request):
 
         if form.is_valid():
             form.save(commit=True) 
-            print(category,category.slug)
+            
             return index(request) 
 
         else: 
@@ -165,9 +165,7 @@ def some_view(request):
 
 @login_required 
 def restricted(request): 
-'''
-    return render(request, 'rango/restricted.html')
-    '''
+
     return HttpResponse("Since you're logged in, you can see this text!")
 
 @login_required 
