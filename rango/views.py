@@ -182,7 +182,7 @@ def user_login(request):
         if user: 
             if user.is_active: 
                 login(request, user) 
-                return HttpResponseRedirect(reverse('index')) 
+                return HttpResponseRedirect(reverse('profile'))
             else: 
                 return HttpResponse("Your Rango account is disabled.")
         else: 
@@ -283,9 +283,9 @@ def profile(request, username):
 
 @login_required
 def list_profiles(request):
-    #    user_list = User.objects.all()
+    user_list = User.objects.all()
     userprofile_list = UserProfile.objects.all()
-    return render(request, 'rango/list_profiles.html', {'userprofile_list': userprofile_list})
+    return render(request, 'rango/list_profiles.html', {'user_list': user_list, 'userprofile_list': userprofile_list})
 
 
 

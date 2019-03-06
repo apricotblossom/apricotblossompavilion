@@ -1,6 +1,7 @@
 from django import forms 
 from django.contrib.auth.models import User
 from rango.models import Page, Category,UserProfile
+from django.forms import extras
 
 class CategoryForm(forms.ModelForm):
 
@@ -37,21 +38,23 @@ class PageForm(forms.ModelForm):
             
             return cleaned_data
 
+
 class UserForm(forms.ModelForm): 
     password = forms.CharField(widget=forms.PasswordInput())
 
     class Meta:
         model = User 
-        fields = ('username', 'email', 'password')
+        fields = ('username', 'email', 'password', 'last_name', 'first_name')
 
 
 class UserProfileForm(forms.ModelForm):
+    age = forms.IntegerField(required=True)
     website = forms.URLField(required=False)
     picture = forms.ImageField(required=False)
 
     class Meta:
         model = UserProfile 
-        fields = ('website', 'picture')
+        fields = ('age', 'website', 'picture')
 
 
 

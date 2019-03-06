@@ -1,14 +1,42 @@
 from django.contrib import admin
-from rango.models import Category, Page, UserProfile
+from django.contrib.auth.admin import UserAdmin
+from django.contrib.auth.models import User
+from rango.models import Category, Page
+from rango.models import UserProfile
 
 
 class PageAdmin(admin.ModelAdmin):
     list_display = ('title', 'category', 'url')
+# Add in this class to customise the Admin Interface
 
-class CategoryAdmin(admin.ModelAdmin): 
+
+class CategoryAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug':('name',)}
 
-admin.site.register(Category,CategoryAdmin) 
-admin.site.register(Page,PageAdmin)
+# Update the registration to include this customised interface
+# admin.site.register(Category)
+
+
+class ProfileInline(admin.StackedInline):
+    model = UserProfile
+    can_delete = False
+    verbose_name_plural = 'Profile'
+    fk_name = 'user'
+
+
+class CustomUserAdmin(UserAdmin):
+    inlines = (ProfileInline, )
+
+    def get_inline_instances(self, request, obj=None):
+        if not obj:
+            return list()
+        return super(CustomUserAdmin, self).get_inline_instances(request, obj)
+
+
+admin.site.unregister(User)
+admin.site.register(User, CustomUserAdmin)
+
+admin.site.register(Page, PageAdmin)
+admin.site.register(Category, CategoryAdmin)
 admin.site.register(UserProfile)
-# Register your models here.
+# Add in this class to customise the Admin Interface

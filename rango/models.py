@@ -30,7 +30,7 @@ class Page(models.Model):
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User)
-
+    age = models.IntegerField(default=0)
     website = models.URLField(blank=True)
     picture = models.ImageField(upload_to='profile_images', blank=True)
 
