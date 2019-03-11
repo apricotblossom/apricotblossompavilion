@@ -52,6 +52,10 @@
                  </a>
             </li>
             <li class="nav-item">
+              <a class="nav-link" href="{% url 'restricted' %}">
+                  Restricted Page</a>
+            </li>
+            <li class="nav-item">
               <a class="nav-link" href="{% url 'profile' user.username %}">
                   Profile</a>
             </li>
@@ -81,15 +85,35 @@
 </nav>
 <div class="container-fluid">
     <div class="row">
-    <div class="col-sm-3 col-md-2 sidebar">
-        {% block sidebar_block %}
-            {% get_category_list category %}
-        {% endblock %}
+        <div class="col-sm-3 col-md-2 sidebar">
+            <ul class="nav nav-list flex-column">
+            <li class="nav-item">Type to find a category</li>
+            <form>
+            <li class="nav-item"><input class="search-query form-control" type="text"
+            name="suggestion" value="" id="suggestion" /> </li>
+            </form>
+            </ul>
+            <hr>
+            <div id="cats">
+            </div>
+
+        </div>
+
+
+        <!--
+        <div class="col-sm-3 col-md-2 sidebar">
+            {% block sidebar_block %}
+                {% get_category_list category %}
+            {% endblock %}
+        </div>
+        -->
+        <div class="col-sm-9 offset-sm-3 col-md-10 offset-md-2 main">
+            {% block body_block %}{% endblock %}
+        </div>
+
+
     </div>
-    <div class="col-sm-9 offset-sm-3 col-md-10 offset-md-2 main">
-        {% block body_block %}{% endblock %}
-    </div>
-    </div>
+
 </div>
     <!-- Bootstrap core JavaScript ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
@@ -103,5 +127,9 @@
     <script
         src= "http://v4-alpha.getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js">
     </script>
+    <script
+            src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js">
+    </script>
+    <script src="{% static "js/rango-ajax.js" %}"></script>
 </body>
 </html>
