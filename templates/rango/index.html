@@ -19,30 +19,27 @@
         {% if categories %}
         <ul>
             {% for category in categories %}
-            <li class="list-group-item"><a href="{% url 'show_category' category.slug %}">
-                {{ category.name }}</a></li>
-            {% endfor %}
-            </ul>
-        {% else %}
-            <strong>There are no categories present.</strong>
-        {% endif %}
-        </p>
-    </div>
-    <div class="col-lg-6">
-        <h4>Most Viewed Pages</h4>
-        <p>
-        {% if pages %}
-        <ul>
-            {% for page in pages %}
             <li class="list-group-item">
-                <a href="{{ page.url }}">{{ page.title }}</a></li>
+                <video width="50%" height="50%" autoplay muted loop>
+                    <source src=" {% static '/images/Brawl Stars- Pre-Register Now.mp4' %}" type="video/mp4"/>
+                </video>
+                <a href="{% url 'show_category' category.slug %}">{{ category.name }}</a>
+                <p>{{ category.cats }}</p>
+                <p>{{ category.releasedate }}</p>
+                <p>{{ category.introduction }}</p>
+                <a href="{{category.andurl}}"><img height="58" width="200" src="{% static "images/android.png" %}" alt="Picture of android" /></a>
+			    <a href="{{category.iosurl}}"><img height="58" width="200" src="{% static "images/ios.png" %}" alt="Picture of ios" /></a>
+			    <a href="{{category.pcurl}}"><img height="58" width="120" src="{% static "images/steam.jpg" %}" alt="Picture of steam" /></a>
+            </li>
             {% endfor %}
-            </ul>
+        </ul>
         {% else %}
             <strong>There are no categories present.</strong>
         {% endif %}
+
         </p>
     </div>
+
 </div>
 <img src="{% static "images/rango.jpg" %}" alt="Picture of Rango" />
 {% endblock %}

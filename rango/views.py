@@ -108,7 +108,21 @@ def show_category(request, category_name_slug):
     return render(request, 'rango/category.html', context_dict)
 
 
-def add_category(request): 
+def show_categories(request, category_name_slug):
+    context_dict = {}
+    try:
+        category = Category.objects.get(slug=category_name_slug)
+        pages = Page.objects.filter(category=category)
+        context_dict['pages'] = pages
+        context_dict['category'] = category
+    except Category.DoesNotExist:
+        context_dict['category'] = None
+        context_dict['pages'] = None
+
+    return render(request, 'rango/category.html', context_dict)
+
+
+def add_category(request):
     form = CategoryForm()
     if request.method == 'POST': 
         form = CategoryForm(request.POST)
@@ -124,27 +138,27 @@ def add_category(request):
     return render(request, 'rango/add_category.html', {'form': form})
 
 
-def add_page(request, category_name_slug): 
-    try: 
+def add_page(request, category_name_slug):
+    try:
         category = Category.objects.get(slug=category_name_slug)
-    except Category.DoesNotExist: 
+    except Category.DoesNotExist:
         category = None
 
-    form = PageForm() 
-    if request.method == 'POST': 
-        form = PageForm(request.POST) 
-        if form.is_valid(): 
-            if category: 
-                page = form.save(commit=False) 
-                page.category = category 
-                page.views = 0 
-                page.save() 
-                return show_category(request, category_name_slug)
+    form = PageForm()
+    if request.method == 'POST':
+        form = PageForm(request.POST)
+        if form.is_valid():
+            if category:
+                page = form.save(commit=False)
+                page.category = category
+                page.views = 0
+                page.save()
+                return show_categories(request, category_name_slug)
 
-        else: 
+        else:
             print(form.errors)
-    
-    context_dict = {'form':form, 'category': category} 
+
+    context_dict = {'form': form, 'category': category}
     return render(request, 'rango/add_page.html', context_dict)
 
 
@@ -284,13 +298,6 @@ def profile(request, username):
             {'userprofile': userprofile, 'selecteduser': user, 'form': form})
 
 
-@login_required
-def list_profiles(request):
-    user_list = User.objects.all()
-    userprofile_list = UserProfile.objects.all()
-    return render(request, 'rango/list_profiles.html', {'user_list': user_list, 'userprofile_list': userprofile_list})
-
-
 def age_check(user):
 
     return user.userprofile.age>=18
@@ -306,6 +313,14 @@ def restricted(request):
 class MyRegistrationView(RegistrationView):
     def get_success_url(self, user):
         return reverse('register_profile')
+
+
+@login_required
+@user_passes_test(age_check)
+def list_profiles(request):
+    user_list = User.objects.all()
+    userprofile_list = UserProfile.objects.all()
+    return render(request, 'rango/list_profiles.html', {'user_list': user_list, 'userprofile_list': userprofile_list})
 
 
 def track_url(request):
@@ -324,6 +339,7 @@ def track_url(request):
     print("No page_id in get string")
     return redirect(reverse('index'))
 
+
 def get_category_list(max_results=0, starts_with=''):
     cat_list = []
     if starts_with:
@@ -332,6 +348,7 @@ def get_category_list(max_results=0, starts_with=''):
         if len(cat_list) > max_results:
             cat_list = cat_list[:max_results]
     return cat_list
+
 
 def suggest_category(request):
     cat_list = []
